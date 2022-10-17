@@ -1,8 +1,10 @@
 import { FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined } from '@material-ui/icons'
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import styled from 'styled-components'
+import { addProduct } from '../redux/cartRedux'
 
 const Container = styled.div`
   flex:1;
@@ -64,14 +66,31 @@ cursor:pointer;
 `
 
 
+
 export const Product = ({item}) => {
+
+  const {username} = useSelector((state) => state.user?.currentUser) || '';
+const dispatch = useDispatch()
+
+
+  //   handle click evt on add to cart button
+  const handleAddToCart = () => {
+    if (!username) {
+      window.location.pathname = '/login'
+    } else {
+      dispatch(addProduct({...item}))
+  }
+  }
+
   return (
     <Container>
       <Circle/>
       <Image src={item.img}/>
       <Info>
         <Icon>
+          <Link onClick={handleAddToCart}>
           <ShoppingCartOutlined/>
+          </Link>
         </Icon>
         <Icon>
           <Link to={`/product/${item._id}`}>

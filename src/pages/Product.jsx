@@ -1,7 +1,7 @@
 import { Add, Remove } from "@material-ui/icons";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Annoucement from "../components/Annoucement";
@@ -128,7 +128,7 @@ const Product = (props) => {
   const dispatch = useDispatch()
 
   const cart = useSelector((state) => state.cart);
-  const {username} = useSelector((state) => state.user?.currentUser);
+  const { username } = useSelector((state) => state.user?.currentUser) || '';
 
   const prodId = location.pathname.split("/")[2];
 
@@ -144,19 +144,27 @@ const Product = (props) => {
   }, [prodId]);
 
   const handleQuantity = (action) => {
-    if (action === "increase") {
-      setQuantity((prev) => prev + 1);
-      dispatch(addProduct({...product}))
-    } else if (action === "decrease" && quantity >= 1) {
-      setQuantity((prev) => prev - 1);
-      dispatch(removeProduct({...product}))
+    if (!username) {
+      window.location.pathname = '/login'
+    } else {
+      window.location.pathname = 'cart'
     }
+    // if (action === "increase") {
+    //   setQuantity((prev) => prev + 1);
+    //   dispatch(addProduct({...product}))
+    // } else if (action === "decrease" && quantity >= 1) {
+    //   setQuantity((prev) => prev - 1);
+    //   dispatch(removeProduct({...product}))
+    // }
   };
 
-//   handle click evt on add to cart button
+  //   handle click evt on add to cart button
   const handleAddToCart = () => {
-    console.log(quantity);
-      saveProduct(dispatch, {cart,username})
+    if (!username) {
+      window.location.pathname = '/login'
+    } else {
+      dispatch(addProduct({...product}))
+  }
   }
 
   return (

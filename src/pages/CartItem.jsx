@@ -83,6 +83,8 @@ const Hr = styled.hr`
 
 function CartItem({ product, i }) {
 
+  console.log(product);
+
     const [quantity, setQuantity] = useState(product.quantity || 1);
     const cart = useSelector((state) => state.cart);
     const {username} = useSelector((state) => state.user?.currentUser) || '';
@@ -91,13 +93,18 @@ function CartItem({ product, i }) {
 
     const handleQuantity = (action) => {
         if (action === "increase") {
-          setQuantity((prev) => prev + 1);
-          dispatch(addProduct({...product}))
+          saveProduct({cart, username}, () => {
+            setQuantity((prev) => prev + 1);
+            dispatch(addProduct({...product}))
+          })
+
         } else if (action === "decrease" && quantity >= 1) {
-          setQuantity((prev) => prev - 1);
-          dispatch(removeProduct({...product}))
+          saveProduct({cart, username}, () => {
+            setQuantity((prev) => prev - 1);
+            dispatch(removeProduct({...product}))
+          })
         }
-        saveProduct(dispatch, {cart,username})
+        // saveProduct(dispatch, {cart,username})
     };
 
     return (

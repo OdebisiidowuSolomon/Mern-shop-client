@@ -10,7 +10,7 @@ export const login = (dispatch, user) => {
         console.log(data)
     })
     .catch(err => {
-        console.log(err.response)
+        console.log(err.response, 'here')
         dispatch(loginFailure(err.response.data.message || err.message));
     })
 
@@ -29,12 +29,13 @@ export const register = (dispatch, newUser) => {
     })
 }
 
-export const saveProduct = (dispatch, props) => {
+export const saveProduct = (props,cb) => {
     console.log(props);
     publicRequest.post('/auth/cart', props)
     .then(({data}) => {
-        // console.log(data.cart[0].quantity)
-        // console.log(data.cart[0].total)
+        cb()
+        console.log(data.cart[0].quantity)
+        console.log(data.cart[0].total)
     })
     .catch(err => {
         console.log(err.response)

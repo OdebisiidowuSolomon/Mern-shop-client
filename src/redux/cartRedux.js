@@ -14,6 +14,7 @@ const cartSlice = createSlice({
       const isExists = state.products.find(e => e.title === action.payload.title)
 
       if(isExists) {
+        console.log(isExists);
         isExists.quantity++
       } else {
         state.products.push(action.payload);
@@ -48,12 +49,12 @@ const cartSlice = createSlice({
     },
     fillCart: (state, action) => {
       // console.log(action);
-      //   state.products = action.payload.cart[0].products;
-      //   state.quantity = action.payload.cart[0].quantity;
-      //   state.total = action.payload.cart[0].total;
-        state = {
-          ...action.payload.cart[0]
-        }
+        state.products = action.payload.cart[0]?.products || [];
+        state.quantity = action.payload.cart[0]?.quantity || 0;
+        state.total = action.payload.cart[0]?.total || 0;
+        // state = {
+        //   ...action.payload.cart[0]
+        // }
     },
   },
 });

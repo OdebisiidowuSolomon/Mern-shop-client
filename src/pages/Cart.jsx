@@ -122,7 +122,7 @@ const Cart = () => {
       })
       .catch((err) => console.log(err));
     }
-  }, [stripeToken, cart, navigate]);
+  }, [stripeToken, username,cart, navigate]);
 
   const checkOutRef = useRef()
 
